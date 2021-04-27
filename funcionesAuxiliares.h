@@ -1,6 +1,9 @@
+#ifndef _funcionesAuxiliares_
+#define _funcionesAuxiliares_
 #include <iostream>
+
 using namespace std;
-// Swap two elements - Utility function  
+
 void swap(int* a, int* b) 
 { 
     int t = *a; 
@@ -48,17 +51,5 @@ void displayArray(int arr[], int size)
     for (i=0; i < size; i++) 
         cout<<arr[i]<<"\t"; 
       
-} 
-   
-int main() 
-{ 
-    int arr[] = {12,23,3,43,51,35,19,45}; 
-    int n = sizeof(arr)/sizeof(arr[0]); 
-    cout<<"Input array"<<endl;
-    displayArray(arr,n);
-    cout<<endl;
-    quickSort(arr, 0, n-1); 
-    cout<<"Array sorted with quick sort"<<endl; 
-    displayArray(arr,n); 
-    return 0; 
 }
+#endif

@@ -1,0 +1,10 @@
+^C:\USERS\FABIC\DESKTOP\PROYECTOAA\BUILD\CMAKEFILES\DE8E15F4C538C3A47DDE9B64AEB23301\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/fabic/Desktop/ProyectoAA -BC:/Users/fabic/Desktop/ProyectoAA/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/fabic/Desktop/ProyectoAA/build/PROYECTOAA.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

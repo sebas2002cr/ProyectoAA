@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\fabic\Desktop\ProyectoAA\build\CMakeFiles\de8e15f4c538c3a47dde9b64aeb23301\NightlyMemoryCheck.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\fabic\Desktop\ProyectoAA\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\fabic\Desktop\ProyectoAA\build\CMakeFiles\NightlyMemoryCheck" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{2B684678-1557-3C66-B603-D30B592245F8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

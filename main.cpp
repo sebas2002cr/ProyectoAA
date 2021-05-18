@@ -14,6 +14,7 @@ int main(){
     cout<<"columnas: "<<img.cols<<endl;
     vector<int> array;
     vector<Pixel> arrayPix;
+    vector<Pixel> coincidencias;
     if (img.isContinuous()) {
         array.assign(img.data, img.data + img.total()*img.channels());
     } else {
@@ -21,23 +22,31 @@ int main(){
             array.insert(array.end(), img.ptr<int>(i), img.ptr<int>(i)+img.cols*img.channels());
          }
     }
-    string hola="";
     for(int i=0; i<array.size(); i++){
-        hola+=to_string(array.at(i));
-        hola+=" ";
         arrayPix.push_back(Pixel(array.at(i),i));
     }
-    txtWrite("antesDe.txt",hola);
-    //quicksort(array, 0, array.size() - 1);
     quicksort(arrayPix, 0, arrayPix.size() - 1);
-    hola="";
-    /**for(int i=0; i<array.size(); i++){
-        hola+=to_string(array.at(i));
-        hola+=" ";
-    }
-    txtWrite("despuesDe.txt",hola);**/
+    int temp=-1;
+    int n;
     for(int i=0; i<arrayPix.size(); i++){
-        cout<<"cod: "<<arrayPix[i].value<<" pos: "<<arrayPix[i].pos<<endl;
+        if(i!=arrayPix.size()-1){
+            for(int j=i+1; j<arrayPix.size(); j++){
+                temp=arrayPix[i].value;
+                if(arrayPix[i].value!=arrayPix[j].value){
+                 break;
+                }else{
+                    if(arrayPix.size()!=(arrayPix[i].pos)+1 && arrayPix.size()!=(arrayPix[j].pos)+1){
+                        if(array[arrayPix[i].pos+1]==array[arrayPix[j].pos+1]){
+                            //cout<<"coincidencia encontrada"<<endl;
+                            coincidencias.push_back(arrayPix[i]);
+                            coincidencias.push_back(arrayPix[j]);
+                        }
+                    }
+                    
+                }
+            }
+            //cout<<"ciclo 1 terminado"<<endl;
+        }
     }
     cout<<"algoritmo terminado";
     waitKey(0);

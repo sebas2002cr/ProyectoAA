@@ -1,55 +1,36 @@
-
 #include <stdio.h>
 #include <opencv2/opencv.hpp>
 #include <opencv2/highgui/highgui.hpp>
-#include <opencv2/img_hash/img_hash_base.hpp>
-#include <opencv2/img_hash/average_hash.hpp>
-#include <opencv2/img_hash/phash.hpp>
-#include <iostream>
+#include "funcionesAuxiliares.h"
+#include "pixel.h"
 
 using namespace cv;
 using namespace std;
 
-/*
-int main(int argc, char** argv)
-{
-	// Read the image file
+class Pixel{
+public:
+    int value;
+    int pos;
 
-	Mat image = imread("D:\SunFlower.jpg", IMREAD_GRAYSCALE);
+    Pixel(int pValue, int pPos){
+        this->value=pValue;
+        this->pos=pPos;
+    }
 
-	// Check for failure
-	if (image.empty())
-	{
-		cout << "Could not open or find the image" << endl;
-		cin.get(); //wait for any key press
-		return -1;
-	}
+    Pixel(){}
+};
 
-	String windowName = "SunFlower"; //Name of the window
 
-	namedWindow(windowName); // Create a window
-
-	imshow(windowName, image); // Show our image inside the created window.
-
-	waitKey(0); // Wait for any keystroke in the window
-
-	destroyWindow(windowName); //destroy the created window
-	 
-
-	return 0;
-}
-*/
-
-int partition(vector<int>& values, int left, int right) {
+int partition(vector<Pixel>& values, int left, int right) {
     int pivotIndex = left + (right - left) / 2;
-    int pivotValue = values[pivotIndex];
+    int pivotValue = values.at(pivotIndex).value;
     int i = left, j = right;
-    int temp;
+    Pixel temp;
     while (i <= j) {
-        while (values[i] < pivotValue) {
+        while (values.at(i).value < pivotValue) {
             i++;
         }
-        while (values[j] > pivotValue) {
+        while (values.at(j).value > pivotValue) {
             j--;
         }
         if (i <= j) {
@@ -64,39 +45,67 @@ int partition(vector<int>& values, int left, int right) {
 }
 
 
-void quicksort(vector<int>& values, int left, int right) {
+void quicksort(vector<Pixel>& values, int left, int right) {
     if (left < right) {
         int pivotIndex = partition(values, left, right);
         quicksort(values, left, pivotIndex - 1);
         quicksort(values, pivotIndex, right);
     }
 }
-
-
-int main() {
-    Mat img = imread("D:\SunFlower.jpg", IMREAD_GRAYSCALE);
-    imshow("IMAGE", img);
-    cout << "filas :" << img.rows << endl;
-    cout << "columnas: " << img.cols << endl;
-    vector<int> prueba;
-    prueba.push_back(8);
    
+
+void txtWrite(string nombre, string texto){
+    cout<<"Iniciado"<<endl;
+    FILE*file=fopen(nombre.c_str(), "w");
+    fputs(texto.c_str(), file);
+    fclose(file);
+    cout<<"terminado"<<endl;
+}
+#endif
+
+
+int main(){
+    Mat img=imread("C:\\Users\\fabic\\Desktop\\ProyectoAA\\img\\tiger.png", IMREAD_GRAYSCALE);
+    //imshow("IMAGE", img);
+    cout<<"filas :"<<img.rows<<endl;
+    cout<<"columnas: "<<img.cols<<endl;
     vector<int> array;
+    vector<Pixel> arrayPix;
+    vector<Pixel> coincidencias;
     if (img.isContinuous()) {
-        array.assign(img.data, img.data + img.total() * img.channels());
-    }
-    else {
+        array.assign(img.data, img.data + img.total()*img.channels());
+    } else {
         for (int i = 0; i < img.rows; ++i) {
-            array.insert(array.end(), img.ptr<float>(i), img.ptr<float>(i) + img.cols * img.channels());
+            array.insert(array.end(), img.ptr<int>(i), img.ptr<int>(i)+img.cols*img.channels());
+         }
+    }
+    for(int i=0; i<array.size(); i++){
+        arrayPix.push_back(Pixel(array.at(i),i));
+    }
+    quicksort(arrayPix, 0, arrayPix.size() - 1);
+    int temp=-1;
+    int n;
+    for(int i=0; i<arrayPix.size(); i++){
+        if(i!=arrayPix.size()-1){
+            for(int j=i+1; j<arrayPix.size(); j++){
+                temp=arrayPix[i].value;
+                if(arrayPix[i].value!=arrayPix[j].value){
+                 break;
+                }else{
+                    if(arrayPix.size()!=(arrayPix[i].pos)+1 && arrayPix.size()!=(arrayPix[j].pos)+1){
+                        if(array[arrayPix[i].pos+1]==array[arrayPix[j].pos+1]){
+                            //cout<<"coincidencia encontrada"<<endl;
+                            coincidencias.push_back(arrayPix[i]);
+                            coincidencias.push_back(arrayPix[j]);
+                        }
+                    }
+                    
+                }
+            }
+            //cout<<"ciclo 1 terminado"<<endl;
         }
     }
-    cout << "array: " << array.size();
+    cout<<"algoritmo terminado";
     waitKey(0);
-
-        quicksort(array, 0, array.size() - 1);
-        for (vector<int>::iterator it = array.begin(); it != array.end(); it++) {
-            cout << "Prueba: "<< *it << endl;
-        }
-
     return 0;
 }
